@@ -11,8 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //GLOBAL VARIABLES
 
-//let calculatorHistory = [];
-//let returnData = [];
+let calculatorHistory = [];
+let returnData = [];
 
 //GET and POST and DELETE FUNCTIONS
 
@@ -21,11 +21,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.sendStatus(200);
 
 // GET /calculate
-//set returnData to empty array
-//grab the information from the calculatorHistory.length-1 index
-//evaluate the answer without eval
-//push answer to the 0 index of returnData
-//loop over calculator history, push into return data
-//response is returnData
+app.get('/calculate', (req, res) => {
+  console.log('in GET /calculate');
+  //set returnData to empty array
+  //returnData = [];
+  //grab the information from the calculatorHistory.length-1 index
+  //let currentInput = calculatorHistory[calculatorHistory.length-1];
+  //evaluate the answer without eval
+  //push answer to the 0 index of returnData
+  //loop over calculator history, push into return data
+  //response is returnData
+});
 
 //PROCESSING FUNCTIONS

@@ -3,18 +3,25 @@ $(document).ready(onReady);
 
 function onReady() {
   console.log('in onReady');
-  //renderFunction();
+  renderFunction();
   $('.operator').on('click', operatorCapture);
   // $('#equals-btn').on('click', calculateInputs);
   // $('#clear-btn').on('click', renderFunction);
 }
 
 //render function
-//clear history
-//GET function, /calculate
-//will need to return history AND answer
-//response will be used to append to DOM
-//clear inputs (can be used for clear button too)
+function renderFunction() {
+  //clear history
+  $('#history').empty();
+  //GET function, /calculate
+  $.ajax({
+    method: 'GET',
+    url: '/calculate',
+  });
+  //will need to return history AND answer
+  //response will be used to append to DOM
+  //clear inputs (can be used for clear button too)
+}
 
 let operator = '';
 
