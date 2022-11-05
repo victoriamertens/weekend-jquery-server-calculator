@@ -24,9 +24,13 @@ let returnData = [];
 app.get('/calculate', (req, res) => {
   console.log('in GET /calculate');
   //set returnData to empty array
-  //returnData = [];
+  returnData = [];
+  if (calculatorHistory.length === 0) {
+    res.send([{ answer: 0 }]);
+  }
   //grab the information from the calculatorHistory.length-1 index
-  //let currentInput = calculatorHistory[calculatorHistory.length-1];
+  //let currentInput = calculatorHistory[calculatorHistory.length - 1];
+  //console.log('current input data is:', currentInput);
   //evaluate the answer without eval
   //push answer to the 0 index of returnData
   //loop over calculator history, push into return data

@@ -17,6 +17,15 @@ function renderFunction() {
   $.ajax({
     method: 'GET',
     url: '/calculate',
+  }).then(function (response) {
+    console.log('render returned from server:', response);
+    $('#answer').append(`
+    <h1>${response[0].answer}</h1>
+    `);
+    if (response.length === 1) {
+      console.log('no history to append');
+    } else {
+    }
   });
   //will need to return history AND answer
   //response will be used to append to DOM
