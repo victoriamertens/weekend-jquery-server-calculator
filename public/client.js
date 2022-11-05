@@ -1,10 +1,13 @@
 //on document load run onReady
+$(document).ready(onReady);
 
-//onReady Function
-//render with GET that can be reused
-//listen for operator click, run operatorCApture set as client variable
-//listen for equals click, run calculateInputs
-//listen for clear button click run render?
+function onReady() {
+  console.log('in onReady');
+  // renderFunction();
+  // $('.operator').on('click', operatorCapture);
+  // $('#equals-btn').on('click', calculateInputs);
+  // $('#clear-btn').on('click', renderFunction);
+}
 
 //render function
 //clear history
@@ -22,5 +25,5 @@
 //ajax POST request, /calculate
 // data includes operator capture and inputs
 //returns response of status code
-//then GET request of render
+//then GET request of renderFunction
 //dont forget the catch statements

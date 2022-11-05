@@ -1,6 +1,13 @@
 //Set the Port
+let PORT = 5000;
 //Start Express
+let express = require('express');
+let app = express();
+app.use(express.static('public'));
+app.listen(PORT, () => console.log('server is running'));
 //Start Body Parser
+let bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //GLOBAL VARIABLES
 
