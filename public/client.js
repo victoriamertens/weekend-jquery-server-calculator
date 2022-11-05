@@ -3,8 +3,8 @@ $(document).ready(onReady);
 
 function onReady() {
   console.log('in onReady');
-  // renderFunction();
-  // $('.operator').on('click', operatorCapture);
+  //renderFunction();
+  $('.operator').on('click', operatorCapture);
   // $('#equals-btn').on('click', calculateInputs);
   // $('#clear-btn').on('click', renderFunction);
 }
@@ -16,8 +16,12 @@ function onReady() {
 //response will be used to append to DOM
 //clear inputs (can be used for clear button too)
 
-//global variable = operator
+let operator = '';
 
+function operatorCapture() {
+  operator = $(this).text();
+  console.log(operator);
+}
 //operatorCapture
 // operator = $(this).text ();
 
