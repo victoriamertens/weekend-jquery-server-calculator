@@ -51,6 +51,7 @@ function calculateInputs() {
     },
   }).then(function (response) {
     console.log(response);
+    renderFunction();
   });
   // data includes operator capture and inputs
   //returns response of status code

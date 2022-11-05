@@ -30,14 +30,31 @@ app.get('/calculate', (req, res) => {
   returnData = [];
   if (calculatorHistory.length === 0) {
     res.send([{ answer: 0 }]);
+  } else {
+    let inputsToCalculateObject =
+      calculatorHistory[calculatorHistory.length - 1];
+    console.log('current calculation data is:', inputsToCalculateObject);
+    //evaluate the answer without eval
+    evaluateExpression(inputsToCalculateObject);
+    //push answer to the 0 index of returnData
+    //loop over calculator history, push into return data
+    //response is returnData
   }
-  //grab the information from the calculatorHistory.length-1 index
-  //let currentInput = calculatorHistory[calculatorHistory.length - 1];
-  //console.log('current input data is:', currentInput);
-  //evaluate the answer without eval
-  //push answer to the 0 index of returnData
-  //loop over calculator history, push into return data
-  //response is returnData
 });
 
 //PROCESSING FUNCTIONS
+
+function evaluateExpression(inputsObject) {
+  let number1 = Number(inputsObject.num1);
+  let number2 = Number(inputsObject.num2);
+  let math = {
+    '+': function (x, y) {
+      return x + y;
+    },
+    '-': function (x, y) {
+      return x - y;
+    },
+  };
+  let answer = math[inputsObject.operator](number1, number2);
+  console.log(answer);
+}
