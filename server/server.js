@@ -12,7 +12,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //GLOBAL VARIABLES
 
 let calculatorHistory = [];
-let returnData = [];
 
 //GET and POST and DELETE FUNCTIONS
 
@@ -20,6 +19,7 @@ let returnData = [];
 app.post('/calculate', (req, res) => {
   console.log(req.body);
   calculatorHistory.push(req.body);
+  console.log('history:', calculatorHistory);
   res.sendStatus(200);
 });
 
@@ -31,13 +31,13 @@ app.get('/calculate', (req, res) => {
   if (calculatorHistory.length === 0) {
     res.send([{ answer: 0 }]);
   } else {
-    returnData = [];
-    let inputsToCalculateObject =
-      calculatorHistory[calculatorHistory.length - 1];
-    console.log('current calculation data is:', inputsToCalculateObject);
+    let returnData = [];
+    let expression = calculatorHistory[calculatorHistory.length - 1].expression;
+    console.log('current calculation data is:', expression);
     //evaluate the answer without eval
-    evaluateExpression(inputsToCalculateObject);
-    console.log('calculatorHistory:', calculatorHistory);
+    answer = evaluateExpression(expression);
+    returnData.push(answer);
+    console.log('returnData:', returnData);
     //loop over calculator history, push into return data
     for (let i = 0; i < calculatorHistory.length; i++) {
       returnData.push(calculatorHistory[i]);
@@ -49,9 +49,17 @@ app.get('/calculate', (req, res) => {
 
 //PROCESSING FUNCTIONS
 
-function evaluateExpression(inputsObject) {
-  let number1 = Number(inputsObject.num1);
-  let number2 = Number(inputsObject.num2);
+function evaluateExpression(incomingExpression) {
+  console.log(incomingExpression);
+  let expressionIndex = incomingExpression.indexOf('+');
+  let firstNum = incomingExpression.slice(0, expressionIndex);
+  let operator = incomingExpression.slice(expressionIndex, expressionIndex + 1);
+  let secondNum = incomingExpression.slice(
+    expressionIndex + 1,
+    expressionIndex.length
+  );
+  console.log(firstNum, 'break', operator, 'break', secondNum);
+
   let math = {
     '+': function (x, y) {
       return x + y;
@@ -66,8 +74,7 @@ function evaluateExpression(inputsObject) {
       return x / y;
     },
   };
-  let answer = math[inputsObject.operator](number1, number2);
+  let answer = math[operator](Number(firstNum), Number(secondNum));
   console.log(answer);
-  returnData.push({ answer: answer });
-  calculatorHistory[calculatorHistory.length - 1].answer = answer;
+  return { answer: answer };
 }

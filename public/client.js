@@ -4,11 +4,10 @@ $(document).ready(onReady);
 function onReady() {
   console.log('in onReady');
   renderFunction();
-  $('.operator').on('click', operatorCapture);
+  $('.input-btn').on('click', updateInput);
   $('#equals-btn').on('click', checkInputs);
   $('#clear-btn').on('click', clearClickFunction);
 }
-let operator = '';
 
 //render function
 function renderFunction() {
@@ -31,7 +30,7 @@ function renderFunction() {
         for (let i = 1; i < response.length; i++) {
           $('#history').append(
             `
-        <li>${response[i].num1} ${response[i].operator} ${response[i].num2} = ${response[i].answer}</li>
+        <li>${response[i].expression} </li>
         `
           );
         }
@@ -44,19 +43,29 @@ function renderFunction() {
   $('#input-1').val('');
   $('#input-2').val('');
 }
-
-function operatorCapture() {
-  operator = $(this).text();
-  $('.operator').removeClass('selected-btn');
+let calculation = '';
+function updateInput() {
+  console.log('in updateInput');
+  calcButtonValue = $(this).text();
+  console.log('calcButtonValue:', calcButtonValue);
+  calculation = calculation.concat('', calcButtonValue);
+  console.log('calculation:', calculation);
+  $('.input-btn').removeClass('selected-btn');
   $(this).addClass('selected-btn');
-  console.log(operator);
+  $('#num-input').val(calculation);
 }
 
 function checkInputs() {
-  if (operator === '') {
-    alert('Need to select an operator');
-  } else {
+  if (calculation.includes('+')) {
     calculateInputs();
+  } else if (calculation.includes('-')) {
+    calculateInputs();
+  } else if (calculation.includes('*')) {
+    calculateInputs();
+  } else if (calculation.includes('/')) {
+    calculateInputs();
+  } else {
+    alert('Need to select an operator');
   }
 }
 
@@ -66,9 +75,7 @@ function calculateInputs() {
     method: 'POST',
     url: '/calculate',
     data: {
-      num1: $('#input-1').val(),
-      operator: operator,
-      num2: $('#input-2').val(),
+      expression: calculation,
     },
   }).then(function (response) {
     console.log(response);
@@ -82,10 +89,11 @@ function calculateInputs() {
 
 function clearClickFunction() {
   console.log('in click function');
-  $('#input-1').val('');
-  $('#input-2').val('');
+  calculation = '';
+  $('#num-input').val('');
   $('#answer').empty();
   $('#answer').append(`
     <h1>0</h1>
     `);
+  $('.input-btn').removeClass('selected-btn');
 }
