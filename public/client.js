@@ -5,7 +5,7 @@ function onReady() {
   console.log('in onReady');
   renderFunction();
   $('.operator').on('click', operatorCapture);
-  // $('#equals-btn').on('click', calculateInputs);
+  $('#equals-btn').on('click', calculateInputs);
   // $('#clear-btn').on('click', renderFunction);
 }
 
@@ -38,12 +38,22 @@ function operatorCapture() {
   operator = $(this).text();
   console.log(operator);
 }
-//operatorCapture
-// operator = $(this).text ();
 
-//calculateInputs
-//ajax POST request, /calculate
-// data includes operator capture and inputs
-//returns response of status code
-//then GET request of renderFunction
-//dont forget the catch statements
+function calculateInputs() {
+  //ajax POST request, /calculate
+  $.ajax({
+    method: 'POST',
+    url: '/calculate',
+    data: {
+      num1: $('#input-1').val(),
+      operator: operator,
+      num2: $('#input-2').val(),
+    },
+  }).then(function (response) {
+    console.log(response);
+  });
+  // data includes operator capture and inputs
+  //returns response of status code
+  //then GET request of renderFunction
+  //dont forget the catch statements
+}

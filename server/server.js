@@ -17,8 +17,11 @@ let returnData = [];
 //GET and POST and DELETE FUNCTIONS
 
 //POST /calculate
-//push data object into the calculatorHistory array
-//app.sendStatus(200);
+app.post('/calculate', (req, res) => {
+  console.log(req.body);
+  calculatorHistory.push(req.body);
+  res.sendStatus(200);
+});
 
 // GET /calculate
 app.get('/calculate', (req, res) => {
