@@ -5,7 +5,7 @@ function onReady() {
   console.log('in onReady');
   renderFunction();
   $('.operator').on('click', operatorCapture);
-  $('#equals-btn').on('click', calculateInputs);
+  $('#equals-btn').on('click', checkInputs);
   $('#clear-btn').on('click', clearClickFunction);
 }
 let operator = '';
@@ -48,6 +48,14 @@ function renderFunction() {
 function operatorCapture() {
   operator = $(this).text();
   console.log(operator);
+}
+
+function checkInputs() {
+  if (operator === '') {
+    alert('Need to select an operator');
+  } else {
+    calculateInputs();
+  }
 }
 
 function calculateInputs() {

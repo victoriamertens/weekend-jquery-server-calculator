@@ -65,9 +65,6 @@ function evaluateExpression(inputsObject) {
     '/': function (x, y) {
       return x / y;
     },
-    '': function (x, y) {
-      return NaN;
-    },
   };
   let answer = math[inputsObject.operator](number1, number2);
   console.log(answer);
