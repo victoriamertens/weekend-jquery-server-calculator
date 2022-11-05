@@ -47,6 +47,8 @@ function renderFunction() {
 
 function operatorCapture() {
   operator = $(this).text();
+  $('.operator').removeClass('selected-btn');
+  $(this).addClass('selected-btn');
   console.log(operator);
 }
 
