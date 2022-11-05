@@ -6,33 +6,44 @@ function onReady() {
   renderFunction();
   $('.operator').on('click', operatorCapture);
   $('#equals-btn').on('click', calculateInputs);
-  // $('#clear-btn').on('click', renderFunction);
+  $('#clear-btn').on('click', clearClickFunction);
 }
+let operator = '';
 
 //render function
 function renderFunction() {
   //clear history
   $('#history').empty();
+  $('#answer').empty();
   //GET function, /calculate
   $.ajax({
     method: 'GET',
     url: '/calculate',
-  }).then(function (response) {
-    console.log('render returned from server:', response);
-    $('#answer').append(`
+  })
+    .then(function (response) {
+      console.log('render returned from server:', response);
+      $('#answer').append(`
     <h1>${response[0].answer}</h1>
     `);
-    if (response.length === 1) {
-      console.log('no history to append');
-    } else {
-    }
-  });
-  //will need to return history AND answer
-  //response will be used to append to DOM
+      if (response.length === 1) {
+        console.log('no history to append');
+      } else {
+        for (let i = 1; i < response.length; i++) {
+          $('#history').append(
+            `
+        <li>${response[i].num1} ${response[i].operator} ${response[i].num2} = ${response[i].answer}</li>
+        `
+          );
+        }
+      }
+    })
+    .catch(function (error) {
+      alert('Error:Check inputs', error);
+    });
   //clear inputs (can be used for clear button too)
+  $('#input-1').val('');
+  $('#input-2').val('');
 }
-
-let operator = '';
 
 function operatorCapture() {
   operator = $(this).text();
@@ -57,4 +68,14 @@ function calculateInputs() {
   //returns response of status code
   //then GET request of renderFunction
   //dont forget the catch statements
+}
+
+function clearClickFunction() {
+  console.log('in click function');
+  $('#input-1').val('');
+  $('#input-2').val('');
+  $('#answer').empty();
+  $('#answer').append(`
+    <h1>0</h1>
+    `);
 }

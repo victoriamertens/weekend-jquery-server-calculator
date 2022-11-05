@@ -27,18 +27,23 @@ app.post('/calculate', (req, res) => {
 app.get('/calculate', (req, res) => {
   console.log('in GET /calculate');
   //set returnData to empty array
-  returnData = [];
+
   if (calculatorHistory.length === 0) {
     res.send([{ answer: 0 }]);
   } else {
+    returnData = [];
     let inputsToCalculateObject =
       calculatorHistory[calculatorHistory.length - 1];
     console.log('current calculation data is:', inputsToCalculateObject);
     //evaluate the answer without eval
     evaluateExpression(inputsToCalculateObject);
-    //push answer to the 0 index of returnData
+    console.log('calculatorHistory:', calculatorHistory);
     //loop over calculator history, push into return data
-    //response is returnData
+    for (let i = 0; i < calculatorHistory.length; i++) {
+      returnData.push(calculatorHistory[i]);
+    }
+    console.log('return data:', returnData);
+    res.send(returnData);
   }
 });
 
@@ -60,7 +65,12 @@ function evaluateExpression(inputsObject) {
     '/': function (x, y) {
       return x / y;
     },
+    '': function (x, y) {
+      return NaN;
+    },
   };
   let answer = math[inputsObject.operator](number1, number2);
   console.log(answer);
+  returnData.push({ answer: answer });
+  calculatorHistory[calculatorHistory.length - 1].answer = answer;
 }
