@@ -10,4 +10,4 @@ The application also includes a historical record of all math operations on the 
 
 I used Javascript, jQuery, Express, and Node.js to complete this application.
 
-<img href="images/final-view.png">
+![anim](images/final-view.png)
