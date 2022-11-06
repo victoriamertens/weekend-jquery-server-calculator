@@ -9,3 +9,5 @@ The application also includes a historical record of all math operations on the 
 > NOTE: History should exist even after refreshing the page.
 
 I used Javascript, jQuery, Express, and Node.js to complete this application.
+
+<img href="images/final-view.png">
