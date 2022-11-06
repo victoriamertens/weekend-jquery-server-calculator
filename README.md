@@ -1,9 +1,11 @@
-# Project Name
-
-[Project Instructions](./INSTRUCTIONS.md), this line may be removed once you have updated the README.md
+# JQuery Server Calculator
 
 ## Description
 
-Your project description goes here. What problem did you solve? How did you solve it?
+I created a user interface where the user can input two values (2 input elements) and the select type of mathematical operation. When the submit (`=` button) is clicked, the input is captured, bundled up in an object, and sent to the server to evaluate the expression.
 
-Additional README details can be found [here](https://github.com/PrimeAcademy/readme-template/blob/master/README.md).
+The application also includes a historical record of all math operations on the server, which is updated via information from the server.
+
+> NOTE: History should exist even after refreshing the page.
+
+I used Javascript, jQuery, Express, and Node.js to complete this application.
