@@ -20,20 +20,14 @@ function renderFunction() {
     url: '/calculate',
   })
     .then(function (response) {
-      console.log('render returned from server:', response);
       $('#answer').append(`
     <h1>${response[0].answer}</h1>
     `);
-      if (response.length === 1) {
-        console.log('no history to append');
-      } else {
-        for (let i = 1; i < response.length; i++) {
-          $('#history').append(
+      for (let i = 1; i < response.length; i++) {
+        $('#history').append(
+          `<li>${response[i].expression} </li>
             `
-        <li>${response[i].expression} </li>
-        `
-          );
-        }
+        );
       }
     })
     .catch(function (error) {
@@ -45,11 +39,8 @@ function renderFunction() {
 }
 let calculation = '';
 function updateInput() {
-  console.log('in updateInput');
   calcButtonValue = $(this).text();
-  console.log('calcButtonValue:', calcButtonValue);
   calculation = calculation.concat('', calcButtonValue);
-  console.log('calculation:', calculation);
   $('.input-btn').removeClass('selected-btn');
   $(this).addClass('selected-btn');
   $('#num-input').val(calculation);
@@ -78,7 +69,6 @@ function calculateInputs() {
       expression: calculation,
     },
   }).then(function (response) {
-    console.log(response);
     renderFunction();
   });
   // data includes operator capture and inputs
@@ -88,7 +78,6 @@ function calculateInputs() {
 }
 
 function clearClickFunction() {
-  console.log('in click function');
   calculation = '';
   $('#num-input').val('');
   $('#answer').empty();

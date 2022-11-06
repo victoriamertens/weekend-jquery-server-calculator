@@ -13,53 +13,68 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 let calculatorHistory = [];
 
-//GET and POST and DELETE FUNCTIONS
+//GET and POST FUNCTIONS
 
-//POST /calculate
+//POST '/calculate'
 app.post('/calculate', (req, res) => {
-  console.log(req.body);
   calculatorHistory.push(req.body);
-  console.log('history:', calculatorHistory);
   res.sendStatus(200);
 });
 
-// GET /calculate
+// GET '/calculate'
 app.get('/calculate', (req, res) => {
-  console.log('in GET /calculate');
-  //set returnData to empty array
-
+  //for initial render, let response be answer: 0
   if (calculatorHistory.length === 0) {
     res.send([{ answer: 0 }]);
   } else {
+    //If a post has completed and there is calculator history
     let returnData = [];
     let expression = calculatorHistory[calculatorHistory.length - 1].expression;
-    console.log('current calculation data is:', expression);
-    //evaluate the answer without eval
     answer = evaluateExpression(expression);
     returnData.push(answer);
-    console.log('returnData:', returnData);
     //loop over calculator history, push into return data
     for (let i = 0; i < calculatorHistory.length; i++) {
       returnData.push(calculatorHistory[i]);
     }
-    console.log('return data:', returnData);
+    //Send back the return data with answer on index 0, and history after
     res.send(returnData);
   }
 });
 
 //PROCESSING FUNCTIONS
 
-function evaluateExpression(incomingExpression) {
-  console.log(incomingExpression);
-  let expressionIndex = incomingExpression.indexOf('+');
-  let firstNum = incomingExpression.slice(0, expressionIndex);
-  let operator = incomingExpression.slice(expressionIndex, expressionIndex + 1);
-  let secondNum = incomingExpression.slice(
-    expressionIndex + 1,
-    expressionIndex.length
-  );
-  console.log(firstNum, 'break', operator, 'break', secondNum);
+function evaluateExpression(stringExpression) {
+  //Check to see if each operator exists (indexOf is greater than -1)
+  let operatorIndex = 0;
+  let indexOfPlus = stringExpression.indexOf('+');
+  let indexOfMinus = stringExpression.indexOf('-');
+  let indexOfDivide = stringExpression.indexOf('/');
+  let indexOfMultiply = stringExpression.indexOf('*');
 
+  //Set the operator to a variable, by looping through all options
+  if (indexOfMinus !== -1) {
+    operatorIndex = indexOfMinus;
+  } else if (indexOfPlus !== -1) {
+    operatorIndex = indexOfPlus;
+  } else if (indexOfMultiply !== -1) {
+    operatorIndex = indexOfMultiply;
+  } else if (indexOfDivide !== -1) {
+    operatorIndex = indexOfDivide;
+  }
+  //Split the expression string into 3 pieces based on the index of the operator
+  let firstNum = stringExpression.slice(0, operatorIndex);
+  let operator = stringExpression.slice(operatorIndex, operatorIndex + 1);
+  let secondNum = stringExpression.slice(
+    operatorIndex + 1,
+    operatorIndex.length
+  );
+  //run a math function to evaluate the expression
+  let answer = mathFunction(firstNum, operator, secondNum);
+  //return an object with property answer and the value of the evaluated expression
+  return { answer: answer };
+}
+
+function mathFunction(firstNum, operator, secondNum) {
   let math = {
     '+': function (x, y) {
       return x + y;
@@ -75,6 +90,5 @@ function evaluateExpression(incomingExpression) {
     },
   };
   let answer = math[operator](Number(firstNum), Number(secondNum));
-  console.log(answer);
-  return { answer: answer };
+  return answer;
 }
